@@ -5,6 +5,8 @@ Scripts para criação/configuração do ambiente de desenvolvimento.
 - Maven
 - DotNet Core
 - Android SDK
+- Dart
+- Flutter
 - Git
 - Docker
 - VsCode
