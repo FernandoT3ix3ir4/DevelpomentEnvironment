@@ -59,9 +59,9 @@ function uninstallChocolatey () {
 }
 
 function destroyDevelopmentEnvironment () {
-    $tools = @("nodejs-lts", "maven", "vscode", "jdk8", "git", "docker", "dotnetcore", "dart-sdk", "flutter", "AndroidStudio");
+    $tools = @("jdk8", "maven", "nodejs-lts", "git", "dotnetcore", "dart-sdk", "flutter", "vscode", "AndroidStudio", "android-sdk", "docker");
     foreach ($tool in $tools) {
-        choco uninstall $tool -y --accept-license -f ;
+        choco uninstall $tool -y --accept-license -f;
         Write-Information "${tool} instalado com sucesso!";
     }
 }
@@ -75,9 +75,9 @@ function clearUserCustomEnvironmentVariables ($tool) {
   
 function clearMachineCustomEnvironmentVariables ($tool) {
     $machinePath = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\CurrentControlSet\Control\Session Manager\Environment\').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString()
-
+    [System.Environment]::SetEnvironmentVariable('Path', $machinePath, [System.EnvironmentVariableTarget]::Machine);
 }    
 
 destroyDevelopmentEnvironment;
 uninstallChocolatey;
-Read-Host -Prompt "Pressione [ENTER] para encerrar";
+Read-Host -Prompt "Pressione [ENTER] para encerrar"; 
