@@ -67,5 +67,4 @@ Set-ExecutionPolicy Unrestricted -Scope Process
 installChocolatey
 createDevelopmentEnvironment
 
-
 Read-Host -Prompt "Pressione [ENTER] para encerrar";
