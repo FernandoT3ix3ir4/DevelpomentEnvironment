@@ -13,7 +13,7 @@ function installChocolatey () {
 function createDevelopmentEnvironment () {
     $tools = @("nodejs-lts", "maven", "vscode", "jdk8", "git", "docker", "dotnetcore", "dart-sdk", "flutter", "AndroidStudio", "android-sdk");
     foreach ($tool in $tools) {
-        choco install $tool -y --accept-license;
+        choco install $tool -y --accept-license -f;
         setCustomEnvironmentVariables($tool);
         Write-Information "${tool} instalado com sucesso!";
     }
@@ -44,27 +44,27 @@ function updateFlutterEnvironmentVariable ($tool, $userPath, $machinePath) {
 }
 
 function getUserPath () {
-    $usrPath = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString();
+    $usrPath = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment').GetValue('Path', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString();
 
-    if($usrPath -eq $null){
+    if (($null) -eq $usrPath -or [String]::Empty -eq $usrPath) {
         [System.Environment]::SetEnvironmentVariable('Path', 'C:\Tmp', 'User');
-        $usrPath = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString();
+        $usrPath = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment').GetValue('Path', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString();
     }
 
     return $usrPath;
 }
 
 function getMachinePath () {
-    $machPath = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\CurrentControlSet\Control\Session Manager\Environment\').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString()
-
-    if($machPath -eq $null){
-        [System.Environment]::SetEnvironmentVariable('Path', 'C:\Tmp', 'Machine');
-        $machPath = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\CurrentControlSet\Control\Session Manager\Environment\').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString()
+    $machPath = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\CurrentControlSet\Control\Session Manager\Environment\').GetValue('Path', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString()
+    $defatulMachinePath = "C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\odnan\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;"
+    
+    if ($null -eq $machPath -or [String]::Empty -eq $machPath) {
+        [System.Environment]::SetEnvironmentVariable('Path', $defatulMachinePath, 'Machine');
+        $machPath = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\CurrentControlSet\Control\Session Manager\Environment\').GetValue('Path', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString()
     }
 
     return $machPath;
 }
-
 
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 installChocolatey
