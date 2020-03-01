@@ -17,6 +17,10 @@ function createDevelopmentEnvironment () {
         setCustomEnvironmentVariables($tool);
         Write-Information "${tool} instalado com sucesso!";
     }
+
+    # Instalação do Angular CLI 7
+    npm install -g @angular/cli@7;
+
 }
 
 function setCustomEnvironmentVariables ($tool) {
