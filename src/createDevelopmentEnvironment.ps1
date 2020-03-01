@@ -11,7 +11,7 @@ function installChocolatey () {
 }
 
 function createDevelopmentEnvironment () {
-    $tools = @("nodejs-lts", "maven", "vscode", "jdk8", "git", "docker", "dotnetcore", "dart-sdk", "flutter", "AndroidStudio", "android-sdk");
+    $tools = @( "jdk8", "maven", "nodejs-lts", "git", "dotnetcore", "dart-sdk", "flutter", "vscode", "AndroidStudio", "android-sdk", "docker");
     foreach ($tool in $tools) {
         choco install $tool -y --accept-license -f;
         setCustomEnvironmentVariables($tool);
@@ -22,22 +22,15 @@ function createDevelopmentEnvironment () {
 function setCustomEnvironmentVariables ($tool) {
     $userPath = getUserPath;
     $machinePath = getMachinePath;
-    updateFlutterEnvironmentVariable($tool, $userPath, $machinePath);
-    addCodeEnvironmentVariable($tool, $userPath);
+    updateFlutterEnvironmentVariable $tool $userPath $machinePath;
 }
 
-function addCodeEnvironmentVariable ($tool, $userPath) {
-    if ($tool -eq 'vscode') {
-        $vsCodePath = "C:\Program Files\Microsoft VS Code\bin";
-        [System.Environment]::SetEnvironmentVariable('PATH', $userPath + $vsCodePath, 'User');
-    }
-}
 function updateFlutterEnvironmentVariable ($tool, $userPath, $machinePath) {
     if ($tool -eq 'flutter') {
         $userPath = [System.Text.RegularExpressions.Regex]::Replace($userPath, [System.Text.RegularExpressions.Regex]::Escape("C:\tools\flutter;"), 'C:\tools\flutter\flutter\bin;');
-        [System.Environment]::SetEnvironmentVariable('Path', $userPath, 'User')
+        [System.Environment]::SetEnvironmentVariable('PATH', $userPath, 'User')
         $machinePath = [System.Text.RegularExpressions.Regex]::Replace($machinePath, [System.Text.RegularExpressions.Regex]::Escape("C:\tools\flutter;"), 'C:\tools\flutter\flutter\bin;');
-        [System.Environment]::SetEnvironmentVariable('Path', $machinePath, 'Machine')
+        [System.Environment]::SetEnvironmentVariable('PATH', $machinePath, 'Machine')
 
         Write-Information "Corrigido a variavel de ambiente Flutter";
     }
@@ -57,7 +50,6 @@ function getUserPath () {
 function getMachinePath () {
     $machPath = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\CurrentControlSet\Control\Session Manager\Environment\').GetValue('Path', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString()
     $defatulMachinePath = "C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\odnan\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;"
-    
     if ($null -eq $machPath -or [String]::Empty -eq $machPath) {
         [System.Environment]::SetEnvironmentVariable('Path', $defatulMachinePath, 'Machine');
         $machPath = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\CurrentControlSet\Control\Session Manager\Environment\').GetValue('Path', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString()
@@ -67,7 +59,9 @@ function getMachinePath () {
 }
 
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+Set-ExecutionPolicy Unrestricted -Scope Process
 installChocolatey
 createDevelopmentEnvironment
+
 
 Read-Host -Prompt "Pressione [ENTER] para encerrar";
