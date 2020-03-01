@@ -7,6 +7,7 @@ Scripts para criação/configuração do ambiente de desenvolvimento.
 - Android SDK
 - Dart
 - Flutter
+- Angular Cli 7
 - Git
 - Docker
 - VsCode
