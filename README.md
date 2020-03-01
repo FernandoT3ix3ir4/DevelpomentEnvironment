@@ -12,4 +12,4 @@ Scripts para criação/configuração do ambiente de desenvolvimento.
 - VsCode
 - Android Studio
 # Execução
-*Execute o powershell em modo administrador./nVá até o diretório onde estãos os arquivos e os execute via prompt.*
+*Execute o powershell em modo administrador.\nVá até o diretório onde estãos os arquivos e os execute via prompt.*
