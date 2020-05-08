@@ -1,6 +1,9 @@
 # DevelpomentEnvironment
+
 Scripts para criação/configuração do ambiente de desenvolvimento.
+
 # Softwares instalados
+
 - JDK 8
 - Maven
 - DotNet Core
@@ -13,6 +16,9 @@ Scripts para criação/configuração do ambiente de desenvolvimento.
 - VsCode
 - Android Studio
 - Postman
+- GitHub Api CLI
+
 # Execução
-*Execute o powershell em modo administrador.*
-*Vá até o diretório onde estãos os arquivos e os execute via prompt.*
+
+_Execute o powershell em modo administrador._
+_Vá até o diretório onde estãos os arquivos e os execute via prompt._
