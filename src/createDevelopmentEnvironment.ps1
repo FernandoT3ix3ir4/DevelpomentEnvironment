@@ -11,15 +11,18 @@ function installChocolatey () {
 }
 
 function createDevelopmentEnvironment () {
-    $tools = @( "jdk8", "maven", "nodejs-lts", "git", "dotnetcore-sdk", "dart-sdk", "flutter", "vscode", "AndroidStudio", "android-sdk", "docker", "postman", "gh");
+    $tools = @( "openjdk8", "maven", "nodejs-lts", "git", "dotnetcore-sdk", "dart-sdk", "flutter", "vscode", "AndroidStudio", "android-sdk", "docker", "postman", "gh");
     foreach ($tool in $tools) {
         choco install $tool -y --accept-license -f;
         setCustomEnvironmentVariables($tool);
         Write-Information "${tool} instalado com sucesso!";
     }
 
-    # Instalação do Angular CLI 7
-    npm install -g @angular/cli@7;
+    refreshenv;
+    
+    # Instalação do Angular CLI
+    npm install -g @angular/cli;
+    Write-Information "Angular CLI instalado com sucesso!";
 
 }
 
