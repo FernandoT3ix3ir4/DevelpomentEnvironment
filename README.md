@@ -4,13 +4,13 @@ Scripts para criação/configuração do ambiente de desenvolvimento.
 
 # Softwares instalados
 
-- JDK 8
+- OpenJDK 8
 - Maven
 - DotNet Core
 - Android SDK
 - Dart
 - Flutter
-- Angular Cli 7
+- Angular Cli
 - Git
 - Docker
 - VsCode
