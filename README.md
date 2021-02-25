@@ -17,6 +17,7 @@ Scripts para criação/configuração do ambiente de desenvolvimento.
 - Android Studio
 - Postman
 - GitHub Api CLI
+- Windows Terminal
 
 # Execução
 
