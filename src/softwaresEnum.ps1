@@ -15,8 +15,3 @@ $softwaresEnum = @{
     GITHUB_CLI       = "gh"
     WINDOWS_TERMINAL = "microsoft-windows-terminal"
 }
-
-
-$softwaresEnum.Values | ForEach-Object {
-    Write-Output $_
-}
