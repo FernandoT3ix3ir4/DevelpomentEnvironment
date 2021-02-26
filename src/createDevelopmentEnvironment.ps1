@@ -12,10 +12,8 @@ function installChocolatey () {
 
 function createDevelopmentEnvironment () {
 
-    $tools = @( "openjdk8", "maven", "nodejs-lts", "git", "dotnetcore-sdk", "dart-sdk", "flutter", "vscode", "AndroidStudio", "android-sdk", "docker", "postman", "gh", "microsoft-windows-terminal");
-
-
-    foreach ($tool in $tools) {
+    $softwaresEnum.Values | ForEach-Object {
+        $tool = $_;
         choco install $tool -y --accept-license -f;
         setCustomEnvironmentVariables($tool);
         Write-Information "${tool} instalado com sucesso!";

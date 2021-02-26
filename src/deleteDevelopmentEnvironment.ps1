@@ -62,12 +62,12 @@ function destroyDevelopmentEnvironment () {
     npm uninstall @angular/cli;
     Write-Information "Angular CLI desinstalado com sucesso!";
     
-    $tools = @( "openjdk8", "maven", "nodejs-lts", "git", "dotnetcore-sdk", "dart-sdk", "flutter", "vscode", "AndroidStudio", "android-sdk", "docker", "postman", "gh", "microsoft-windows-terminal");
-
-    foreach ($tool in $tools) {
+    $softwaresEnum.Values | ForEach-Object {
+        $tool = $_;
         choco uninstall $tool -y --accept-license -f;
         Write-Information "${tool} desinstalado com sucesso!";
     }
+
 }
 
 function clearUserCustomEnvironmentVariables ($tool) {
